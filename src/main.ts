@@ -149,7 +149,7 @@ process.on("SIGTERM", () => void core.logger.error("Received SIGTERM signal"))
 async function doTheThing() {
 	if (typeof core.config.platform === "undefined") {
 		await core.logger.error(
-			"Unknown game version. If the game has recently updated, the framework will need to be patched."
+			"Unknown game version. If the game has recently updated, the framework will need to be patched by its developers. If you're using a cracked version of the game, that's the problem."
 		)
 	}
 
