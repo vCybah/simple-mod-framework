@@ -159,8 +159,7 @@ async function doTheThing() {
 		await core.logger.info("Initialising error reporting")
 
 		Sentry.init({
-			// dsn: "https://464c3dd1424b4270803efdf7885c1b90@o1144555.ingest.sentry.io/6208676",
-			dsn: "https://54f68a1c164b9c49933fce15ba93353a@o4506023064895488.ingest.sentry.io/4506023282868224",
+			dsn: "https://464c3dd1424b4270803efdf7885c1b90@o1144555.ingest.sentry.io/6208676",
 			release: core.isDevBuild ? "dev" : core.FrameworkVersion,
 			environment: core.isDevBuild ? "dev" : "production",
 			tracesSampleRate: 0.5,
