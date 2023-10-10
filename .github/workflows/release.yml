@@ -129,7 +129,6 @@ jobs:
         id: changelog
         uses: loopwerk/tag-changelog@v1.0.4
         with:
-#          token: ${{ secrets.GITHUB_TOKEN }}
           token: ${{ secrets.PAT }}
           config_file: .github/tag-changelog-config.js
           exclude_types: other,docs,chore,build,amend,refactor
@@ -140,7 +139,6 @@ jobs:
           name: ${{ steps.latestTag.outputs.tag }}
           body: ${{ steps.changelog.outputs.changes }}
           tag_name: ${{ steps.latestTag.outputs.tag }}
-#          repository: atampy25/simple-mod-framework
           repository: vcybah/simple-mod-framework
           files: dist/Release.zip
 

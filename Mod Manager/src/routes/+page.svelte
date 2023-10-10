@@ -134,7 +134,7 @@
 
 	async function checkForUpdates(): Promise<any> {
 		const release = await (
-			await fetch("https://api.github.com/repos/atampy25/simple-mod-framework/releases/latest", {
+			await fetch("https://api.github.com/repos/vcybah/simple-mod-framework/releases/latest", {
 				headers: {
 					Accept: "application/vnd.github.v3+json"
 				}
@@ -142,7 +142,7 @@
 		).json()
 
 		const releases = await (
-			await fetch("https://api.github.com/repos/atampy25/simple-mod-framework/releases", {
+			await fetch("https://api.github.com/repos/vcybah/simple-mod-framework/releases", {
 				headers: {
 					Accept: "application/vnd.github.v3+json"
 				}
@@ -191,7 +191,7 @@
 		let chunksAll
 
 		try {
-			const response = await fetch("https://github.com/atampy25/simple-mod-framework/releases/latest/download/Release.zip")
+			const response = await fetch("https://github.com/vcybah/simple-mod-framework/releases/latest/download/Release.zip")
 			const reader = response.body!.getReader()
 
 			frameworkDownloadSize = +response.headers.get("Content-Length")!
@@ -252,7 +252,7 @@
 			window.fs.removeSync("./staging/Mod Manager/vk_swiftshader_icd.json")
 			window.fs.removeSync("./staging/Mod Manager/vulkan_1.dll")
 		} catch (e) {
-			window.alert("Couldn't extract the update! You may want to report this to Atampy26 on Hitman Forum.\n\n" + e)
+			window.alert("Couldn't extract the update! \n\n" + e)
 			updatingFramework = false
 			return
 		}
@@ -268,7 +268,7 @@
 			window.fs.removeSync("./tempArchive")
 			window.fs.removeSync("./temp.asar")
 		} catch (e) {
-			window.alert("Couldn't apply the update! You may want to report this to Atampy26 on Hitman Forum.\n\n" + e)
+			window.alert("Couldn't apply the update! \n\n" + e)
 			updatingFramework = false
 			return
 		}
@@ -617,13 +617,13 @@
 <Modal alert bind:open={mustRedownloadFrameworkModalOpen} modalHeading="Reinstall the Mod Manager" primaryButtonText="OK" on:submit={() => (mustRedownloadFrameworkModalOpen = false)}>
 	<p>
 		The framework's Mod Manager needs to be reinstalled due to a change in its internals which can't be automatically updated. Please delete your Mod Manager folder, download the Release.zip file from
-		<code>https://github.com/atampy25/simple-mod-framework/releases/latest</code>
+		<code>https://github.com/vcybah/simple-mod-framework/releases/latest</code>
 		and extract the new Mod Manager folder from the ZIP.
 	</p>
 </Modal>
 
 <Modal alert bind:open={invalidModOpen} modalHeading="Invalid mod" primaryButtonText="OK" on:submit={() => (invalidModOpen = false)}>
-	<p>The mod {invalidModText} is broken. Ensure it has all of the required keys in the manifest (see the documentation), and if that fails, contact Atampy26 on Hitman Forum.</p>
+	<p>The mod {invalidModText} is broken. Ensure it has all of the required keys in the manifest (see the documentation).</p>
 </Modal>
 
 <Modal alert bind:open={installedViaZIP} modalHeading="Installed via alternate means" primaryButtonText="OK" on:submit={() => (installedViaZIP = false)}>

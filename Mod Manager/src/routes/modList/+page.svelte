@@ -530,7 +530,7 @@
 </Modal>
 
 <Modal alert bind:open={dependencyCycleModalOpen} modalHeading="Dependency cycle (couldn't sort mods)" primaryButtonText="OK" shouldSubmitOnEnter={false}>
-	<p>The framework couldn't sort your mods! Ask the developer of whichever mod you most recently installed to investigate this. Also, report this to Atampy26 on Hitman Forum or Discord.</p>
+	<p>The framework couldn't sort your mods! Ask the developer of whichever mod you most recently installed to investigate this. </p>
 </Modal>
 
 <Modal passiveModal open={frameworkDeployModalOpen} modalHeading="Applying your mods" preventCloseOnClickOutside>
