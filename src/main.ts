@@ -275,4 +275,4 @@ async function doTheThing() {
 	await core.cleanExit()
 }
 
-void doTheThing()
+// void doTheThing()
