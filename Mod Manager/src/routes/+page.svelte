@@ -84,7 +84,7 @@
 		}
 
 		if (typeof getConfig().reportErrors == "undefined") {
-			errorReportingPrompt = true
+			errorReportingPrompt = false
 		}
 
 		if (typeof getConfig().developerMode == "undefined") {
@@ -650,8 +650,8 @@
 	}}
 	on:submit={() => {
 		mergeConfig({
-			reportErrors: true,
-			errorReportingID: v4()
+			reportErrors: false,
+			errorReportingID: undefined
 		})
 
 		errorReportingPrompt = false
@@ -662,8 +662,6 @@
 		<br />
 		This can be changed later in the information page.
 		<br />
-		<br />
-		It is recommended you enable this; it helps with resolving problems and improving the framework's features.
 	</p>
 </Modal>
 
