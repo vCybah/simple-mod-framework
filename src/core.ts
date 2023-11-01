@@ -1,4 +1,4 @@
-const FrameworkVersion = "2.33.2"
+const FrameworkVersion = "2.33.4"
 const isDevBuild = false
 
 import * as Sentry from "@sentry/node"
@@ -34,7 +34,7 @@ const config: Config = json5.parse(fs.readFileSync(path.join(process.cwd(), "con
 
 if (config.runtimePath === "..\\Runtime" && fs.existsSync(path.join(config.retailPath, "Runtime", "chunk0.rpkg"))) {
 	config.runtimePath = "..\\Retail\\Runtime"
-	fs.writeFileSync(path.join(process.cwd(), "config.json"), json5.stringify(config))
+	fs.writeFileSync(path.join(process.cwd(), "config.json"), json5.stringify(config, undefined, "\t"))
 	fs.copyFileSync(path.join(process.cwd(), "cleanMicrosoftThumbs.dat"), path.join(process.cwd(), "cleanThumbs.dat"))
 } // Automatically set runtime path and fix clean thumbs if using microsoft platform
 
@@ -91,9 +91,9 @@ const logger = args["--useConsoleLogging"]
 				}
 
 				if (exitAfter) {
-					if (config.reportErrors) {
-						Sentry.getCurrentHub().getScope()!.getTransaction()!.finish()
-					}
+					// if (config.reportErrors) {
+					// 	Sentry.getCurrentHub().getScope()!.getTransaction()!.finish()
+					// }
 
 					await Sentry.close()
 
@@ -195,9 +195,9 @@ const logger = args["--useConsoleLogging"]
 					}
 
 					if (exitAfter) {
-						if (config.reportErrors) {
-							Sentry.getCurrentHub().getScope()!.getTransaction()!.finish()
-						}
+						// if (config.reportErrors) {
+						// 	Sentry.getCurrentHub().getScope()!.getTransaction()!.finish()
+						// }
 
 						await Sentry.close()
 
@@ -220,9 +220,9 @@ export default {
 	isDevBuild,
 	args,
 	cleanExit: async () => {
-		if (config.reportErrors) {
-			Sentry.getCurrentHub().getScope()!.getTransaction()!.finish()
-		}
+		// if (config.reportErrors) {
+		// 	Sentry.getCurrentHub().getScope()!.getTransaction()!.finish()
+		// }
 
 		await Sentry.close()
 

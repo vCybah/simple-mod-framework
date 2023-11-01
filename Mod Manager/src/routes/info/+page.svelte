@@ -54,36 +54,36 @@
 				</Button>
 			</div>
 		</div>
-		<br />
-		<div in:fade={{ delay: 2000 }}>
-			<div class="flex gap-4 items-center">
-				<Button
-					kind="primary"
-					on:click={() => {
-						if (getConfig().reportErrors) {
-							mergeConfig({
-								reportErrors: false,
-								errorReportingID: undefined
-							})
+<!--		<br />-->
+<!--		<div in:fade={{ delay: 2000 }}>-->
+<!--			<div class="flex gap-4 items-center">-->
+<!--				<Button-->
+<!--					kind="primary"-->
+<!--					on:click={() => {-->
+<!--						if (getConfig().reportErrors) {-->
+<!--							mergeConfig({-->
+<!--								reportErrors: false,-->
+<!--								errorReportingID: undefined-->
+<!--							})-->
 
-							forceUpdate = Math.random()
-						} else {
-							mergeConfig({
-								reportErrors: true,
-								errorReportingID: v4()
-							})
+<!--							forceUpdate = Math.random()-->
+<!--						} else {-->
+<!--							mergeConfig({-->
+<!--								reportErrors: true,-->
+<!--								errorReportingID: v4()-->
+<!--							})-->
 
-							forceUpdate = Math.random()
-						}
-					}}
-				>
-					{forceUpdate && getConfig().reportErrors ? "Disable" : "Enable"} error reporting
-				</Button>
-				{#if forceUpdate && getConfig().reportErrors}
-					<span class="text-gray-300">Your reporting ID is {forceUpdate && getConfig().errorReportingID}</span>
-				{/if}
-			</div>
-		</div>
+<!--							forceUpdate = Math.random()-->
+<!--						}-->
+<!--					}}-->
+<!--				>-->
+<!--					{forceUpdate && getConfig().reportErrors ? "Disable" : "Enable"} error reporting-->
+<!--				</Button>-->
+<!--				{#if forceUpdate && getConfig().reportErrors}-->
+<!--					<span class="text-gray-300">Your reporting ID is {forceUpdate && getConfig().errorReportingID}</span>-->
+<!--				{/if}-->
+<!--			</div>-->
+<!--		</div>-->
 	</div>
 </div>
 

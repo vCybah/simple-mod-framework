@@ -147,59 +147,59 @@ process.on("SIGINT", () => void core.logger.error("Received SIGINT signal"))
 process.on("SIGTERM", () => void core.logger.error("Received SIGTERM signal"))
 
 async function doTheThing() {
-	// if (typeof core.config.platform === "undefined") {
-	// 	await core.logger.error(
-	// 		"Unknown game version. If the game has recently updated, the framework will need to be patched by its developers. If you're using a cracked version of the game, that's the problem."
-	// 	)
-	// }
+	if (typeof core.config.platform === "undefined") {
+		await core.logger.warn(
+			"Unknown game version. If the game has recently updated, the framework will need to be patched by its developers. If you're using a cracked version of the game, that's the problem."
+		)
+	}
 
 	const startedDate = DateTime.now()
 
-	if (core.config.reportErrors) {
-		await core.logger.info("Initialising error reporting")
-
-		Sentry.init({
-			dsn: "https://54f68a1c164b9c49933fce15ba93353a@o4506023064895488.ingest.sentry.io/4506023282868224",
-			release: core.isDevBuild ? "dev" : core.FrameworkVersion,
-			environment: core.isDevBuild ? "dev" : "production",
-			tracesSampleRate: 0.5,
-			integrations: [
-				new Sentry.Integrations.OnUncaughtException({
-					onFatalError: (err) => {
-						if (!String(err).includes("write EPIPE")) {
-							void core.logger.info("Reporting an error:").then(() => {
-								void core.logger.error(`Uncaught exception! ${err}`, false)
-							})
-						}
-					}
-				}),
-				new Sentry.Integrations.OnUnhandledRejection({
-					mode: "strict"
-				})
-			]
-		})
-
-		Sentry.setUser({
-			id: core.config.errorReportingID!
-		})
-
-		// @ts-expect-error TypeScript what are you on
-		sentryTransaction = Sentry.startTransaction({
-			op: "deploy",
-			name: "Deploy"
-		})
-
-		Sentry.configureScope((scope) => {
-			scope.setSpan(sentryTransaction)
-		})
-
-		Sentry.setTag(
-			"game_hash",
-			fs.existsSync(path.join(core.config.retailPath, "Runtime", "chunk0.rpkg"))
-				? md5File.sync(path.join(core.config.retailPath, "..", "MicrosoftGame.Config"))
-				: md5File.sync(path.join(core.config.runtimePath, "..", "Retail", "HITMAN3.exe"))
-		)
-	}
+	// if (core.config.reportErrors) {
+	// 	await core.logger.info("Initialising error reporting")
+	//
+	// 	Sentry.init({
+	// 		dsn: "https://54f68a1c164b9c49933fce15ba93353a@o4506023064895488.ingest.sentry.io/4506023282868224",
+	// 		release: core.isDevBuild ? "dev" : core.FrameworkVersion,
+	// 		environment: core.isDevBuild ? "dev" : "production",
+	// 		tracesSampleRate: 0.5,
+	// 		integrations: [
+	// 			new Sentry.Integrations.OnUncaughtException({
+	// 				onFatalError: (err) => {
+	// 					if (!String(err).includes("write EPIPE")) {
+	// 						void core.logger.info("Reporting an error:").then(() => {
+	// 							void core.logger.error(`Uncaught exception! ${err}`, false)
+	// 						})
+	// 					}
+	// 				}
+	// 			}),
+	// 			new Sentry.Integrations.OnUnhandledRejection({
+	// 				mode: "strict"
+	// 			})
+	// 		]
+	// 	})
+	//
+	// 	Sentry.setUser({
+	// 		id: core.config.errorReportingID!
+	// 	})
+	//
+	// 	// @ts-expect-error TypeScript what are you on
+	// 	sentryTransaction = Sentry.startTransaction({
+	// 		op: "deploy",
+	// 		name: "Deploy"
+	// 	})
+	//
+	// 	Sentry.configureScope((scope) => {
+	// 		scope.setSpan(sentryTransaction)
+	// 	})
+	//
+	// 	Sentry.setTag(
+	// 		"game_hash",
+	// 		fs.existsSync(path.join(core.config.retailPath, "Runtime", "chunk0.rpkg"))
+	// 			? md5File.sync(path.join(core.config.retailPath, "..", "MicrosoftGame.Config"))
+	// 			: md5File.sync(path.join(core.config.runtimePath, "..", "Retail", "HITMAN3.exe"))
+	// 	)
+	// }
 
 	await core.logger.verbose("Initialising RPKG instance")
 	await core.rpkgInstance.waitForInitialised()
