@@ -111,17 +111,17 @@ jobs:
           copy Deploy.exe dist
           New-Item -Path dist -Name "Mod Manager.cmd" -ItemType "file" -Value "@echo off`ncd `"Mod Manager`"`nstart `"`" `"Mod Manager.exe`""
 
-      - name: Zip
-        uses: TheDoctor0/zip-release@4fb9e4ff72847dd3d1c111cf63834e353ed7cb3d
-        with:
-          filename: Release.zip
-          directory: dist
-
       - name: Get latest tag
         id: latestTag
         uses: 'WyriHaximus/github-action-get-previous-tag@v1.1.0'
         with:
           fallback: unknown
+
+      - name: Zip
+        uses: TheDoctor0/zip-release@4fb9e4ff72847dd3d1c111cf63834e353ed7cb3d
+        with:
+          filename: ${{ steps.latestTag.outputs.tag }}-Release.zip
+          directory: dist
 
       - name: Generate changelog
         id: changelog
@@ -138,7 +138,7 @@ jobs:
           body: ${{ steps.changelog.outputs.changes }}
           tag_name: ${{ steps.latestTag.outputs.tag }}
           repository: vcybah/simple-mod-framework
-          files: dist/Release.zip
+          files: dist/${{ steps.latestTag.outputs.tag }}-Release.zip
 
 #  sentry-release:
 #    runs-on: ubuntu-latest
