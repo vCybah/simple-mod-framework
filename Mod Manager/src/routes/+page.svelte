@@ -456,30 +456,37 @@
 				</div>
 			{:then { release, releases }}
 				{#if semver.lt(FrameworkVersion, release.tag_name)}
-					<div class="flex items-center">
-						<h3 class="flex-grow">
-							{{ patch: "Patch update available", minor: "Feature update available", major: "Major update available" }[semver.diff(FrameworkVersion, release.tag_name)] ||
-								"Update available"}
-						</h3>
-						<p>{FrameworkVersion} → {release.tag_name}</p>
-					</div>
-					<hr class="bg-gray-500 border-none h-px" />
-					<div class="mt-2 markdown">
-						{@html githubReleaseMarkdownBody}
-					</div>
-					<br />
 					{#if canAutomaticallyUpdate}
-						<Button
-							kind="primary"
-							icon={Download}
-							on:click={() => {
-								updatingFramework = true
+						<div class="flex items-center">
+							<h3 class="flex-grow">
+								{{ patch: "Patch update available", minor: "Feature update available", major: "Major update available" }[semver.diff(FrameworkVersion, release.tag_name)] ||
+									"Update available"}
+							</h3>
+							<p>{FrameworkVersion} → {release.tag_name}</p>
+						</div>
+						<hr class="bg-gray-500 border-none h-px" />
+						<div class="mt-2 markdown">
+							{@html githubReleaseMarkdownBody}
+						</div>
+						<br />
+						<!--{#if canAutomaticallyUpdate}-->
+							<Button
+								kind="primary"
+								icon={Download}
+								on:click={() => {
+									updatingFramework = true
 
-								startFrameworkUpdate()
-							}}
-						>
-							Update
-						</Button>
+									startFrameworkUpdate()
+								}}
+							>
+								Update
+							</Button>
+					{/if}
+					{#if !canAutomaticallyUpdate}
+						<div class="flex items-center">
+							<p class="flex-grow">The framework is up to date (version {FrameworkVersion})</p>
+							<Checkmark />
+						</div>
 					{/if}
 				{:else}
 					<div class="flex items-center">
