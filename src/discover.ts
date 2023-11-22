@@ -113,12 +113,12 @@ export default async function discover(): Promise<{ [x: string]: { hash: string;
 
 			if (semver.lt(manifest.frameworkVersion, FrameworkVersion)) {
 				if (semver.diff(manifest.frameworkVersion, FrameworkVersion) === "major") {
-					await logger.error(`Mod ${manifest.name} is designed for an older version of the framework and is likely incompatible!`)
+					await logger.warn(`Mod ${manifest.name} is designed for an older version of the framework and is likely incompatible!`)
 				}
 			}
 
 			if (semver.gt(manifest.frameworkVersion, FrameworkVersion)) {
-				await logger.error(`Mod ${manifest.name} is designed for a newer version of the framework and is likely incompatible!`)
+				await logger.warn(`Mod ${manifest.name} is designed for a newer version of the framework and is likely incompatible!`)
 			}
 
 			await logger.verbose("Getting folders")
