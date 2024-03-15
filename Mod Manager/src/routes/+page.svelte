@@ -469,20 +469,17 @@
 							{@html githubReleaseMarkdownBody}
 						</div>
 						<br />
-						<!--{#if canAutomaticallyUpdate}-->
-							<Button
-								kind="primary"
-								icon={Download}
-								on:click={() => {
-									updatingFramework = true
-
-									startFrameworkUpdate()
-								}}
-							>
-								Update
-							</Button>
-					{/if}
-					{#if !canAutomaticallyUpdate}
+						<Button
+							kind="primary"
+							icon={Download}
+							on:click={() => {
+								updatingFramework = true
+								startFrameworkUpdate()
+							}}
+						>
+							Update
+						</Button>
+					{:else}
 						<div class="flex items-center">
 							<p class="flex-grow">The framework is up to date (version {FrameworkVersion})</p>
 							<Checkmark />
