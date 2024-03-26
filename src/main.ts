@@ -1,11 +1,7 @@
 // @ts-expect-error Need to assign on global because of QuickEntity
 global.THREE = require("./three-onlymath.min")
 
-import * as Sentry from "@sentry/node"
-import * as Tracing from "@sentry/tracing"
-
 import { DateTime, Duration, DurationLikeObject } from "luxon"
-import type { Span, Transaction } from "@sentry/tracing"
 
 import { Platform } from "./types"
 import core from "./core-singleton"
@@ -15,7 +11,6 @@ import discover from "./discover"
 import fs from "fs-extra"
 import md5File from "md5-file"
 import path from "path"
-import { xxhash3 } from "hash-wasm"
 
 require("clarify")
 
@@ -85,51 +80,6 @@ core.config.platform = fs.existsSync(path.join(core.config.retailPath, "Runtime"
 	? gameHashes[md5File.sync(path.join(core.config.retailPath, "..", "MicrosoftGame.Config"))]
 	: gameHashes[md5File.sync(path.join(core.config.runtimePath, "..", "Retail", "HITMAN3.exe"))] // Platform detection
 
-let sentryTransaction = {
-	startChild(...args) {
-		return {
-			startChild(...args) {
-				return {
-					startChild(...args) {
-						return {
-							startChild(...args) {
-								return {
-									startChild(...args) {
-										return {
-											startChild(...args) {
-												return {
-													startChild(...args) {
-														return {
-															finish(...args) {}
-														}
-													},
-													finish(...args) {}
-												}
-											},
-											finish(...args) {}
-										}
-									},
-									finish(...args) {}
-								}
-							},
-							finish(...args) {}
-						}
-					},
-					finish(...args) {}
-				}
-			},
-			finish(...args) {}
-		}
-	},
-	finish(...args) {}
-} as Transaction
-
-function configureSentryScope(transaction: Span) {
-	if (core.config.reportErrors)
-		Sentry.configureScope((scope) => {
-			scope.setSpan(transaction)
-		})
-}
 
 function toHuman(dur: Duration) {
 	const units: (keyof DurationLikeObject)[] = ["years", "months", "days", "hours", "minutes", "seconds", "milliseconds"]
@@ -154,53 +104,6 @@ async function doTheThing() {
 	}
 
 	const startedDate = DateTime.now()
-
-	// if (core.config.reportErrors) {
-	// 	await core.logger.info("Initialising error reporting")
-	//
-	// 	Sentry.init({
-	// 		dsn: "https://54f68a1c164b9c49933fce15ba93353a@o4506023064895488.ingest.sentry.io/4506023282868224",
-	// 		release: core.isDevBuild ? "dev" : core.FrameworkVersion,
-	// 		environment: core.isDevBuild ? "dev" : "production",
-	// 		tracesSampleRate: 0.5,
-	// 		integrations: [
-	// 			new Sentry.Integrations.OnUncaughtException({
-	// 				onFatalError: (err) => {
-	// 					if (!String(err).includes("write EPIPE")) {
-	// 						void core.logger.info("Reporting an error:").then(() => {
-	// 							void core.logger.error(`Uncaught exception! ${err}`, false)
-	// 						})
-	// 					}
-	// 				}
-	// 			}),
-	// 			new Sentry.Integrations.OnUnhandledRejection({
-	// 				mode: "strict"
-	// 			})
-	// 		]
-	// 	})
-	//
-	// 	Sentry.setUser({
-	// 		id: core.config.errorReportingID!
-	// 	})
-	//
-	// 	// @ts-expect-error TypeScript what are you on
-	// 	sentryTransaction = Sentry.startTransaction({
-	// 		op: "deploy",
-	// 		name: "Deploy"
-	// 	})
-	//
-	// 	Sentry.configureScope((scope) => {
-	// 		scope.setSpan(sentryTransaction)
-	// 	})
-	//
-	// 	Sentry.setTag(
-	// 		"game_hash",
-	// 		fs.existsSync(path.join(core.config.retailPath, "Runtime", "chunk0.rpkg"))
-	// 			? md5File.sync(path.join(core.config.retailPath, "..", "MicrosoftGame.Config"))
-	// 			: md5File.sync(path.join(core.config.runtimePath, "..", "Retail", "HITMAN3.exe"))
-	// 	)
-	// }
-
 	await core.logger.verbose("Initialising RPKG instance")
 	await core.rpkgInstance.waitForInitialised()
 
@@ -255,7 +158,7 @@ async function doTheThing() {
 	})
 
 	await core.logger.verbose("Beginning deploy")
-	const { lastServerSideStates } = (await deploy(sentryTransaction, configureSentryScope, invalidData))!
+	const { lastServerSideStates } = (await deploy(invalidData))!
 
 	await core.logger.verbose("Finishing")
 

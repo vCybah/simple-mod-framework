@@ -268,7 +268,7 @@ export default async function discover(): Promise<{ [x: string]: { hash: string;
 								entityContent = LosslessJSON.parse(fs.readFileSync(contentFilePath, "utf8"))
 
 								if (+entityContent.quickEntityVersion < 3) {
-									await logger.info(
+									await logger.debug(
 										`Mod ${manifest.name} uses a version of QuickEntity prior to 3.0 in ${path.basename(
 											contentFilePath
 										)}. This makes deployment of this file significantly slower. Mod developers can fix this easily by using an automatic updater available at the QuickEntity GitHub releases.`
@@ -287,13 +287,13 @@ export default async function discover(): Promise<{ [x: string]: { hash: string;
 								}
 
 								if (+entityContent.patchVersion < 5) {
-									await logger.info(
+									await logger.debug(
 										`Mod ${manifest.name} uses a version of QuickEntity prior to 3.0 in ${path.basename(
 											contentFilePath
 										)}. This makes deployment of this file significantly slower. Mod developers can fix this easily by using an automatic updater available at the QuickEntity GitHub releases.`
 									)
 								} else if (+entityContent.patchVersion < 6) {
-									await logger.info(
+									await logger.debug(
 										`Mod ${manifest.name} uses a QuickEntity 3.0 patch in ${path.basename(
 											contentFilePath
 										)}. This is acceptable in most cases but can cause compatibility issues. Mod developers can fix this easily by using an automatic updater available at the QuickEntity GitHub releases.`
@@ -371,25 +371,25 @@ export default async function discover(): Promise<{ [x: string]: { hash: string;
 									fileToReplace = path.basename(contentFilePath).split(".")[0]
 
 									if (baseGameEntityHashes.has(fileToReplace)) {
-										await logger.warn(
+										await logger.debug(
 											`Mod ${manifest.name} replaces a base game entity file (${fileToReplace}) with a raw file. This can cause compatibility issues, it makes the mod harder to work with and it requires more work when the game updates. Mod developers can fix this easily by using an entity.patch.json file.`
 										)
 									}
 
 									if (fileToReplace === "00204D1AFD76AB13") {
-										await logger.warn(
+										await logger.debug(
 											`Mod ${manifest.name} replaces the repository file (${fileToReplace}) in its entirety. This can cause compatibility issues, it makes the mod harder to work with and it requires more work when the game updates. Mod developers can fix this easily by using a repository.json or JSON.patch.json file.`
 										)
 									}
 
 									if (fileToReplace === "0057C2C3941115CA") {
-										await logger.warn(
+										await logger.debug(
 											`Mod ${manifest.name} replaces the unlockables file (${fileToReplace}) in its entirety. This can cause compatibility issues, it makes the mod harder to work with and it requires more work when the game updates. Mod developers can fix this easily by using an unlockables.json or JSON.patch.json file.`
 										)
 									}
 
 									if (baseGameSoundbankHashes.has(fileToReplace)) {
-										await logger.warn(
+										await logger.debug(
 											`Mod ${manifest.name} replaces a sound bank file in its entirety. This can cause compatibility issues, it makes the mod harder to work with and it can require more work when the game updates. Mod developers can fix this easily by using an sfx.wem file.`
 										)
 									}

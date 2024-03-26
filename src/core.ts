@@ -1,7 +1,6 @@
-const FrameworkVersion = "2.33.8"
+const FrameworkVersion = "2.33.9"
 const isDevBuild = false
 
-import * as Sentry from "@sentry/node"
 
 import type { Config } from "./types"
 import RPKGInstance from "./rpkg"
@@ -91,12 +90,6 @@ const logger = args["--useConsoleLogging"]
 				}
 
 				if (exitAfter) {
-					// if (config.reportErrors) {
-					// 	Sentry.getCurrentHub().getScope()!.getTransaction()!.finish()
-					// }
-
-					await Sentry.close()
-
 					rpkgInstance.exit()
 					try {
 						// @ts-expect-error Assigning stuff on global is probably bad practice
@@ -195,12 +188,6 @@ const logger = args["--useConsoleLogging"]
 					}
 
 					if (exitAfter) {
-						// if (config.reportErrors) {
-						// 	Sentry.getCurrentHub().getScope()!.getTransaction()!.finish()
-						// }
-
-						await Sentry.close()
-
 						rpkgInstance.exit()
 						try {
 							// @ts-expect-error Assigning stuff on global is probably bad practice
@@ -220,12 +207,6 @@ export default {
 	isDevBuild,
 	args,
 	cleanExit: async () => {
-		// if (config.reportErrors) {
-		// 	Sentry.getCurrentHub().getScope()!.getTransaction()!.finish()
-		// }
-
-		await Sentry.close()
-
 		rpkgInstance.exit()
 		try {
 			// @ts-expect-error Assigning stuff on global is probably bad practice
