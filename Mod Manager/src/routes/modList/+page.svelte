@@ -44,7 +44,6 @@
 	import Settings from "carbon-icons-svelte/lib/Settings.svelte"
 	import TrashCan from "carbon-icons-svelte/lib/TrashCan.svelte"
 	import Close from "carbon-icons-svelte/lib/Close.svelte"
-	import CloudUpload from "carbon-icons-svelte/lib/CloudUpload.svelte"
 	import Filter from "carbon-icons-svelte/lib/Filter.svelte"
 	import { OptionType } from "../../../../src/types"
 	import { page } from "$app/stores"
@@ -396,9 +395,6 @@
 		}
 	}
 
-	let uploadedLogURL = ""
-	let uploadLogModalOpen = false
-	let uploadLogFailedModalOpen = false
 
 	let availableModFilter = ""
 	let enabledModFilter = ""
@@ -731,30 +727,6 @@
 				<span class="text-yellow-300">Potential issues in deployment</span>
 			{:else}
 				<Button kind="primary" icon={Close} on:click={() => (frameworkDeployModalOpen = false)}>Close</Button>
-				<Button
-					kind="primary"
-					icon={CloudUpload}
-					on:click={async () => {
-						const req = await fetch("http://hitman-resources.netlify.app/.netlify/functions/upload-smf-log", {
-							method: "POST",
-							headers: {
-								"Content-Type": "application/json"
-							},
-							body: JSON.stringify({ content: "Config:\n" + JSON.stringify(getConfig()) + "\n\nDeploy log:\n" + deployOutput })
-						})
-
-						if (req.status == 200) {
-							uploadedLogURL = await req.text()
-
-							frameworkDeployModalOpen = false
-							uploadLogModalOpen = true
-						} else {
-							uploadLogFailedModalOpen = true
-						}
-					}}
-				>
-					Upload mod list and log
-				</Button>
 				<span class="text-red-300">Deploy unsuccessful</span>
 			{/if}
 		</div>
@@ -882,17 +854,6 @@
 		If you're seeing this after creating a new mod yourself, you should enable developer mode in the information page - it'll improve your experience and let you use the mod authoring tools in the
 		Mod Manager.
 	</p>
-</Modal>
-
-<Modal alert bind:open={uploadLogFailedModalOpen} modalHeading="Couldn't upload log" primaryButtonText="OK" shouldSubmitOnEnter={false} on:submit={() => (uploadLogFailedModalOpen = false)}>
-	<p>Your log couldn't be uploaded. Make sure you're connected to the Internet.</p>
-</Modal>
-
-<Modal alert bind:open={uploadLogModalOpen} modalHeading="Log uploaded" primaryButtonText="OK" shouldSubmitOnEnter={false} on:submit={() => (uploadLogModalOpen = false)}>
-	<p class="mb-2">Your deploy log has been anonymously uploaded to the Internet.</p>
-	<CodeSnippet code={uploadedLogURL} />
-	<br />
-	<div class="mb-6" />
 </Modal>
 
 <Modal passiveModal open={autoInstallDownloading} modalHeading={"Downloading the mod"} preventCloseOnClickOutside>

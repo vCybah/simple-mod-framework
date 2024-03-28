@@ -80,6 +80,10 @@ core.config.platform = fs.existsSync(path.join(core.config.retailPath, "Runtime"
 	? gameHashes[md5File.sync(path.join(core.config.retailPath, "..", "MicrosoftGame.Config"))]
 	: gameHashes[md5File.sync(path.join(core.config.runtimePath, "..", "Retail", "HITMAN3.exe"))] // Platform detection
 
+if (typeof core.config.platform === "undefined") {
+	core.config.platform = fs.existsSync(path.join(core.config.retailPath, "steam_api64.dll"))
+	? Platform.steam : fs.existsSync(path.join(core.config.retailPath, "EOSSDK-Win64-Shipping.dll")) ? Platform.epic : Platform.microsoft
+}
 
 function toHuman(dur: Duration) {
 	const units: (keyof DurationLikeObject)[] = ["years", "months", "days", "hours", "minutes", "seconds", "milliseconds"]

@@ -130,7 +130,7 @@ export function getConfig() {
 }
 
 export function setConfig(config: Config) {
-	window.fs.writeFileSync("../config.json", json5.stringify(config, undefined, "\t"))
+	window.fs.writeFileSync("../config.json", json5.stringify(config, null, "\t"))
 }
 
 export function mergeConfig(configToMerge: Partial<Config>) {

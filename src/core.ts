@@ -33,7 +33,7 @@ const config: Config = json5.parse(fs.readFileSync(path.join(process.cwd(), "con
 
 if (config.runtimePath === "..\\Runtime" && fs.existsSync(path.join(config.retailPath, "Runtime", "chunk0.rpkg"))) {
 	config.runtimePath = "..\\Retail\\Runtime"
-	fs.writeFileSync(path.join(process.cwd(), "config.json"), json5.stringify(config, undefined, "\t"))
+	fs.writeFileSync(path.join(process.cwd(), "config.json"), json5.stringify(config, null, "\t"))
 	fs.copyFileSync(path.join(process.cwd(), "cleanMicrosoftThumbs.dat"), path.join(process.cwd(), "cleanThumbs.dat"))
 } // Automatically set runtime path and fix clean thumbs if using microsoft platform
 
