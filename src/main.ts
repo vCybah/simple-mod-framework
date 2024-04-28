@@ -105,6 +105,8 @@ async function doTheThing() {
 		await core.logger.warn(
 			"Unknown game version. If the game has recently updated, the framework will need to be patched by its developers. If you're using a cracked version of the game, that's the problem."
 		)
+	} else {
+		await core.logger.info(`Detected game platform is: ${core.config.platform}\n`)
 	}
 
 	const startedDate = DateTime.now()
